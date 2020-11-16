@@ -27,14 +27,9 @@ url: "https://sillocan.github.io" # the base hostname & protocol for your site, 
 twitter_username: Sillocan
 github_username:  Sillocan
 
-permalink: pretty
-exclude: ["node_modules/", "*.gemspec", "*.gem", "Gemfile", "Gemfile.lock", "package.json", "package-lock.json",  "script/", "LICENSE.txt", "lib/", "bin/", "README.md", "Rakefile"
-, "docs/tests/"
-]
-
 # Build settings
 theme: just-the-docs
-#remote_theme: pmarsceill/just-the-docs
+remote_theme: pmarsceill/just-the-docs
 
 # Exclude from processing.
 # The following items will not be processed, by default.
@@ -55,6 +50,14 @@ theme: just-the-docs
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
+# Aux links for the upper right navigation
+aux_links:
+        "wow-node-parsing on GitHub":
+                - "//github.com/Sillocan/wow-node-plotting/"
+
+# Make Aux links open in new tab. Default is false
+aux_links_new_tab: false
 
 # Heading anchor links appear on hover over h1-h6 tags in page content
 # allowing users to deep link to a particular heading on a page.
