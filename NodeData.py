@@ -4,6 +4,8 @@ import re
 import ast
 from bs4 import BeautifulSoup
 from NodeClasses import *
+import itertools
+from operator import attrgetter
 
 node_db = {
     349983: 'Sinvyr Deposit',
@@ -100,4 +102,7 @@ def parse_wowhead_data(node_id):
         map_db[int(map_uid)] = curr_map
 
     for map_uid in map_db:
-        print(map_db[map_uid].node_location_list)
+        data = sorted(map_db[map_uid].node_set, key=attrgetter('name', 'x', 'y'))
+        output = "\n\t".join(f"{k}: {list(g)}" for k, g in itertools.groupby(data, attrgetter('name')))
+        print(f"Map: {map_db[map_uid].name}\n\t{output}")
+

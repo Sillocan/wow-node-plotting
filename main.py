@@ -7,6 +7,8 @@ from NodeClasses import *
 from NodeData import *
 from PIL import Image
 from io import BytesIO
+import pprint
+from datetime import datetime
 
 def convert_wowgathering_coord_to_xy(coord):
     return math.floor(coord / 10000)/100, math.floor(coord % 10000)/100
@@ -74,7 +76,7 @@ def main():
         # print("Parsing map:",map_uid)
         x = []
         y = []
-        for node in map_db.get(map_uid).node_location_list:
+        for node in map_db.get(map_uid).get_nodes():
             x.append(node.x)
             y.append(node.y)
             print(node)
@@ -115,5 +117,19 @@ def main():
         plt.savefig(f"outputs/{map_db[map_uid].name}-{tag}.png", bbox_inches='tight', dpi=fig.dpi)
     # plt.show()
 
+    # Output stats to file
+    counts = {}
+    for map_obj in map_db.values():
+        counts[map_obj.name] = map_obj.get_counts()
+    total = sum(count['Total'] for count in counts.values())
+
+    with open("outputs/stats.txt", 'w') as stats_file:
+        header = f"{datetime.now()}, {len(map_db)} maps, {total} nodes"
+        # Write to file
+        stats_file.write(header)
+        pprint.pprint(counts, stream=stats_file)
+        # Write to stdout
+        pprint.pprint(header)
+        pprint.pprint(counts)
 
 main()

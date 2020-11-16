@@ -1,4 +1,5 @@
-from collections import namedtuple
+from collections import namedtuple, defaultdict, Counter
+from typing import List
 
 MapNodeLocation = namedtuple('MapNodeLocation', ['name', 'x', 'y'])
 Node = namedtuple('Node', ['name', 'id'])
@@ -8,11 +9,20 @@ class Map(object):
 
     def __init__(self, name):
         self.name = name
-        self.node_location_list = []
-        # self.node_map = []
+        self.node_set = set()
 
     def __str__(self):
         return "%s" % self.name
 
-    def add_node(self, map_node_location: MapNodeLocation):
-        self.node_location_list.append(map_node_location)
+    def get_nodes(self) -> List[MapNodeLocation]:
+        return list(self.node_set)
+
+    def add_node(self, node_loc: MapNodeLocation):
+        self.node_set.add(node_loc)
+
+    def get_counts(self):
+        data = dict(Counter(node.name for node in self.get_nodes()))
+        data['Total'] = sum(count for count in data.values())
+        return data
+
+
