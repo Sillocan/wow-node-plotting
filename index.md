@@ -13,6 +13,13 @@ nav_order: 1
 
 ---
 
+## Quick Links
+**Images with clusters based on node type:** 
+*   [Herbs Clustered](Herbs)
+*   [Mines Clustered](Mines)
+*   [All Together](All)
+
+
 ## Original Images
 The original images can be found here [here](https://github.com/Sillocan/wow-node-plotting/tree/main/outputs)
 
