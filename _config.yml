@@ -22,8 +22,8 @@ title: wow-node-plotting
 email: your-email@example.coim
 description: >- # this means to ignore newlines until "baseurl:"
   Collection of images based on nodes in different Shadowlands zones.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "/wow-node-plotting" # the subpath of your site, e.g. /blog
+url: "https://sillocan.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: Sillocan
 github_username:  Sillocan
 
