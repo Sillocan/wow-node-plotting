@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Home
-description: "Static markdown viewer for wow-node-parsing repository."
+description: "Plotting of clustered Shadowlands gathering nodes."
 permalink: /
 nav_order: 1
 ---
