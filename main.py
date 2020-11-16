@@ -94,7 +94,7 @@ def parse_tag(tag: str):
             x.append(node.x)
             y.append(node.y)
             # print(node)  # DEBUG PRINT
-        fig = plt.figure(i, figsize=(25,10), dpi=200)
+        fig = plt.figure(i, figsize=(10,4), dpi=200)
         # setup transparent cmap
         mycmap = transparent_cmap(cm.gist_rainbow)
         # import the map image
