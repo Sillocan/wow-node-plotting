@@ -16,6 +16,11 @@ nav_order: 2
 
 ---
 
+## Original Images
+The original images can be found here [here](https://github.com/Sillocan/wow-node-plotting/tree/main/outputs)
+
+---
+
 ## Ardenweald
 
 ![](/wow-node-plotting/outputs/mines/Ardenweald-mines.png)
