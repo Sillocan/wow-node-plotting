@@ -18,21 +18,21 @@ nav_order: 2
 
 ## Ardenweald
 
-![](/outputs/mines/Ardenweald-mines.png)
+![](/wow-node-plotting/outputs/mines/Ardenweald-mines.png)
 
 ## Bastion
 
-![](/outputs/mines/Bastion-mines.png)
+![](/wow-node-plotting/outputs/mines/Bastion-mines.png)
 
 ## Maldraxxus
 
-![](/outputs/mines/Maldraxxus-mines.png)
+![](/wow-node-plotting/outputs/mines/Maldraxxus-mines.png)
 
 ## Revendreth
 
-![](/outputs/mines/Revendreth-mines.png)
+![](/wow-node-plotting/outputs/mines/Revendreth-mines.png)
 
 ## The Maw
 
-![](/outputs/mines/The Maw-mines.png)
+![](/wow-node-plotting/outputs/mines/The Maw-mines.png)
 

@@ -18,21 +18,21 @@ nav_order: 1
 
 ## Ardenweald
 
-![](/outputs/herbs/Ardenweald-herbs.png)
+![](/wow-node-plotting/outputs/herbs/Ardenweald-herbs.png)
 
 ## Bastion
 
-![](/outputs/herbs/Bastion-herbs.png)
+![](/wow-node-plotting/outputs/herbs/Bastion-herbs.png)
 
 ## Maldraxxus
 
-![](/outputs/herbs/Maldraxxus-herbs.png)
+![](/wow-node-plotting/outputs/herbs/Maldraxxus-herbs.png)
 
 ## Revendreth
 
-![](/outputs/herbs/Revendreth-herbs.png)
+![](/wow-node-plotting/outputs/herbs/Revendreth-herbs.png)
 
 ## The Maw
 
-![](/outputs/herbs/The Maw-herbs.png)
+![](/wow-node-plotting/outputs/herbs/The Maw-herbs.png)
 

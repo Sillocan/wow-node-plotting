@@ -68,6 +68,8 @@ def make_output_folder(folder_name: str):
 
 
 def parse_tag(tag: str):
+    # plt.clf()
+
     if tag not in ['all', 'herbs', 'mines']:
         print("ERROR: Invalid tag passed.")
         return
@@ -129,6 +131,8 @@ def parse_tag(tag: str):
         fig.canvas.set_window_title(map_db[map_uid].name)
 
         plt.savefig(os.path.join(path, f"{map_db[map_uid].name}-{tag}.png"), bbox_inches='tight', dpi=fig.dpi)
+        fig.clf()
+        plt.close(fig)
     # plt.show()
 
     # Output stats to file

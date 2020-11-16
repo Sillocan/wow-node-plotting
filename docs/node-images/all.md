@@ -18,21 +18,21 @@ nav_order: 3
 
 ## Ardenweald
 
-![](/outputs/all/Ardenweald-all.png)
+![](/wow-node-plotting/outputs/all/Ardenweald-all.png)
 
 ## Bastion
 
-![](/outputs/all/Bastion-all.png)
+![](/wow-node-plotting/outputs/all/Bastion-all.png)
 
 ## Maldraxxus
 
-![](/outputs/all/Maldraxxus-all.png)
+![](/wow-node-plotting/outputs/all/Maldraxxus-all.png)
 
 ## Revendreth
 
-![](/outputs/all/Revendreth-all.png)
+![](/wow-node-plotting/outputs/all/Revendreth-all.png)
 
 ## The Maw
 
-![](/outputs/all/The Maw-all.png)
+![](/wow-node-plotting/outputs/all/The Maw-all.png)
 
