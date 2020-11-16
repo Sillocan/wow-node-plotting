@@ -9,6 +9,7 @@ from PIL import Image
 from io import BytesIO
 import pprint
 from datetime import datetime
+import os
 
 def convert_wowgathering_coord_to_xy(coord):
     return math.floor(coord / 10000)/100, math.floor(coord % 10000)/100
@@ -57,8 +58,19 @@ mining_item_lookup = {
     171830: "Oxxein Ore"
 }
 
-def main():
-    tag = 'all'
+outputs_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'outputs')
+
+
+def make_output_folder(folder_name: str):
+    path = os.path.join(outputs_path, folder_name)
+    os.makedirs(path, exist_ok=True)
+    return path
+
+
+def parse_tag(tag: str):
+    if tag not in ['all', 'herbs', 'mines']:
+        print("ERROR: Invalid tag passed.")
+        return
 
     if tag == 'all' or tag == 'herbs':
         for node_id, name in herbalism_item_lookup.items():
@@ -67,6 +79,8 @@ def main():
     if tag == 'all' or tag == 'mines':
         for node_id, name in mining_item_lookup.items():
             scrape_map_nodes_from_item(node_id)
+
+    path = make_output_folder(tag)
 
     construct_node_lists_from_wowhead_data()
 
@@ -79,8 +93,8 @@ def main():
         for node in map_db.get(map_uid).get_nodes():
             x.append(node.x)
             y.append(node.y)
-            print(node)
-        fig = plt.figure(i, figsize=(10,10), dpi=200)
+            # print(node)  # DEBUG PRINT
+        fig = plt.figure(i, figsize=(25,10), dpi=200)
         # setup transparent cmap
         mycmap = transparent_cmap(cm.gist_rainbow)
         # import the map image
@@ -114,17 +128,18 @@ def main():
         plt.xlim([0, 100])
         fig.canvas.set_window_title(map_db[map_uid].name)
 
-        plt.savefig(f"outputs/{map_db[map_uid].name}-{tag}.png", bbox_inches='tight', dpi=fig.dpi)
+        plt.savefig(os.path.join(path, f"{map_db[map_uid].name}-{tag}.png"), bbox_inches='tight', dpi=fig.dpi)
     # plt.show()
 
     # Output stats to file
     counts = {}
-    for map_obj in map_db.values():
+    for map_uid, map_obj in map_db.items():
         counts[map_obj.name] = map_obj.get_counts()
+        counts[map_obj.name]['UUID'] = map_uid
     total = sum(count['Total'] for count in counts.values())
 
     with open("outputs/stats.txt", 'w') as stats_file:
-        header = f"{datetime.now()}, {len(map_db)} maps, {total} nodes"
+        header = f"{datetime.now()}, '{tag}' tag, {len(map_db)} maps, {total} nodes"
         # Write to file
         stats_file.write(header)
         pprint.pprint(counts, stream=stats_file)
@@ -132,4 +147,16 @@ def main():
         pprint.pprint(header)
         pprint.pprint(counts)
 
-main()
+
+if __name__ == "__main__":
+    # global map_db, node_db
+
+    reset_nodes()
+    parse_tag('herbs')
+
+    reset_nodes()
+    parse_tag('mines')
+
+    reset_nodes()
+    parse_tag('all')
+
