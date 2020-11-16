@@ -28,7 +28,7 @@ twitter_username: Sillocan
 github_username:  Sillocan
 
 # Build settings
-theme: just-the-docs
+theme: jekyll-theme-cayman
 remote_theme: pmarsceill/just-the-docs
 
 # Exclude from processing.
