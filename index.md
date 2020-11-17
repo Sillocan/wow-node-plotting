@@ -17,7 +17,8 @@ nav_order: 1
 **Images with clusters based on node type:** 
 *   [Herbs Clustered]({{ site.baseurl }}{% link docs/node-images/herbs.md %})
 *   [Mines Clustered]({{ site.baseurl }}{% link docs/node-images/mines.md %})
-*   [All Together]({{ site.baseurl }}{% link docs/node-images/all.md %})
+*   [Fishing Clustered]({{ site.baseurl }}{% link docs/node-images/fishing.md %})
+*   [All Together]({{ site.baseurl }}{% link docs/node-images/herbs_mines.md %})
 
 
 ## Original Images

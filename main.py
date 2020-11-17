@@ -10,6 +10,13 @@ from io import BytesIO
 import pprint
 from datetime import datetime
 import os
+from enum import Enum
+
+
+class ZamimgDatasource(Enum):
+    RETAIL = 'enus'
+    BETA = 'beta'
+
 
 def convert_wowgathering_coord_to_xy(coord):
     return math.floor(coord / 10000)/100, math.floor(coord % 10000)/100
@@ -37,7 +44,6 @@ map_list = []
 # Random objects
 """
 356539: "Lush Widowbloom",
-
 """
 
 herbalism_item_lookup = {
@@ -53,9 +59,33 @@ mining_item_lookup = {
     171831: "Phaedrum Ore",
     171833: "Elethium Ore",
     171828: "Laestrite Ore",
-    171832: "Sinvyr Ore",   # These weren't really tracked well
+    171832: "Sinvyr Ore",
     171829: "Solenium Ore",
     171830: "Oxxein Ore"
+}
+
+fishing_item_lookup = {
+    173192: "shrouded cloth bandage",
+    180168: "oribobber",
+    171441: "laestrite skeleton key",
+    173032: "lost sole",
+    173037: "elysian thade",
+    173034: "silvergill pike",
+    173035: "pocked bonefish",
+    173033: "iridescent amberjack",
+    173036: "spinefin piranha",
+    173038: "lost sole bait",
+    173043: "elysian thade bait",
+    173040: "silvergill pike bait",
+    173041: "pocked bonefish bait",
+    173039: "iridescent amberjack bait",
+    173042: "spinefin piranha bait"
+}
+
+tag_lookup = {
+    'mines': mining_item_lookup,
+    'herbs': herbalism_item_lookup,
+    'fishing': fishing_item_lookup,
 }
 
 outputs_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'outputs')
@@ -67,25 +97,31 @@ def make_output_folder(folder_name: str):
     return path
 
 
-def parse_tag(tag: str):
-    # plt.clf()
+def parse_tag(tags: List[str], datasource: ZamimgDatasource):
+    # Reset parsed nodes in-case of previous run
+    reset_nodes()
 
-    if tag not in ['all', 'herbs', 'mines']:
-        print("ERROR: Invalid tag passed.")
+    # Early exit conditions
+    if not len(tags) or datasource is None:
         return
 
-    if tag == 'all' or tag == 'herbs':
-        for node_id, name in herbalism_item_lookup.items():
+    # Parse all tags passed and scrape associated nodes
+    for tag in tags:
+        if tag not in tag_lookup:
+            print("ERROR: Invalid tag passed.")
+            return
+        for node_id, name in tag_lookup[tag].items():
+            print(f"Scraping data for {name} - {node_id}")
             scrape_map_nodes_from_item(node_id)
 
-    if tag == 'all' or tag == 'mines':
-        for node_id, name in mining_item_lookup.items():
-            scrape_map_nodes_from_item(node_id)
+    # Make output folder
+    output_name = '_'.join(tags)
+    path = make_output_folder(output_name)
 
-    path = make_output_folder(tag)
-
+    # Convert all scrapped nodes into map data
     construct_node_lists_from_wowhead_data()
 
+    # Begin to plot the data
     i = 0
     for map_uid in map_db:
         i += 1
@@ -96,18 +132,16 @@ def parse_tag(tag: str):
             x.append(node.x)
             y.append(node.y)
             # print(node)  # DEBUG PRINT
-        fig = plt.figure(i, figsize=(10,4), dpi=200)
+        fig = plt.figure(i, figsize=(10, 4), dpi=200)
         # setup transparent cmap
         mycmap = transparent_cmap(cm.gist_rainbow)
+
         # import the map image
-        # img_request = requests.get("https://wow.zamimg.com/images/wow/maps/enus/original/"+map_uid.__str__()+".jpg")
-        img_request = requests.get(f"https://wow.zamimg.com/images/wow/maps/beta/original/{map_uid}.jpg")
+        img_request = requests.get(f"https://wow.zamimg.com/images/wow/maps/{datasource.value}/original/{map_uid}.jpg")
         img = np.flipud(Image.open(BytesIO(img_request.content)))
         img_extent=[0, 100, 0, 100]
-        # I = Image.open("drustvar.jpg")
-        # p = np.asarray(I).astype('float')
 
-        (ax1, ax2) = fig.subplots(1,2,sharex=True,sharey=True)
+        (ax1, ax2) = fig.subplots(1, 2, sharex=True, sharey=True)
         ax1.imshow(img, extent=img_extent)
         ax2.imshow(img, extent=img_extent)
 
@@ -130,7 +164,7 @@ def parse_tag(tag: str):
         plt.xlim([0, 100])
         fig.canvas.set_window_title(map_db[map_uid].name)
 
-        plt.savefig(os.path.join(path, f"{map_db[map_uid].name}-{tag}.png"), bbox_inches='tight', dpi=fig.dpi)
+        plt.savefig(os.path.join(path, f"{map_db[map_uid].name}-{output_name}.png"), bbox_inches='tight', dpi=fig.dpi)
         fig.clf()
         plt.close(fig)
     # plt.show()
@@ -142,8 +176,8 @@ def parse_tag(tag: str):
         counts[map_obj.name]['UUID'] = map_uid
     total = sum(count['Total'] for count in counts.values())
 
-    with open("outputs/stats.txt", 'w') as stats_file:
-        header = f"{datetime.now()}, '{tag}' tag, {len(map_db)} maps, {total} nodes"
+    with open(os.path.join(path, "stats.txt"), 'w') as stats_file:
+        header = f"{datetime.now()}, '{output_name}' tag, {len(map_db)} maps, {total} nodes"
         # Write to file
         stats_file.write(header)
         pprint.pprint(counts, stream=stats_file)
@@ -153,14 +187,9 @@ def parse_tag(tag: str):
 
 
 if __name__ == "__main__":
-    # global map_db, node_db
-
-    reset_nodes()
-    parse_tag('herbs')
-
-    reset_nodes()
-    parse_tag('mines')
-
-    reset_nodes()
-    parse_tag('all')
+    source = ZamimgDatasource.BETA
+    parse_tag(['herbs'], source)
+    parse_tag(['mines'], source)
+    parse_tag(['herbs', 'mines'], source)
+    parse_tag(['fishing'], source)
 
