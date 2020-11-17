@@ -86,13 +86,11 @@ tag_lookup = {
     'mines': mining_item_lookup,
     'herbs': herbalism_item_lookup,
     'fishing': fishing_item_lookup,
+    'all': {**mining_item_lookup, **herbalism_item_lookup, **fishing_item_lookup}
 }
 
-outputs_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'outputs')
-
-
-def make_output_folder(folder_name: str):
-    path = os.path.join(outputs_path, folder_name)
+def make_folder(path):
+    path = os.path.join(path)
     os.makedirs(path, exist_ok=True)
     return path
 
@@ -116,7 +114,8 @@ def parse_tag(tags: List[str], datasource: ZamimgDatasource):
 
     # Make output folder
     output_name = '_'.join(tags)
-    path = make_output_folder(output_name)
+    path = make_folder(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets'))
+    stats_path = make_folder(os.path.join(os.path.dirname(os.path.abspath(__file__)), '_includes'))
 
     # Convert all scrapped nodes into map data
     construct_node_lists_from_wowhead_data()
@@ -176,8 +175,8 @@ def parse_tag(tags: List[str], datasource: ZamimgDatasource):
         counts[map_obj.name]['UUID'] = map_uid
     total = sum(count['Total'] for count in counts.values())
 
-    with open(os.path.join(path, "stats.txt"), 'w') as stats_file:
-        header = f"{datetime.now()}, '{output_name}' tag, {len(map_db)} maps, {total} nodes"
+    with open(os.path.join(stats_path, f"stats-{output_name}.txt"), 'w') as stats_file:
+        header = f"{datetime.now()}, '{output_name}' tag, {len(map_db)} maps, {total} nodes\n"
         # Write to file
         stats_file.write(header)
         pprint.pprint(counts, stream=stats_file)
@@ -192,4 +191,5 @@ if __name__ == "__main__":
     parse_tag(['mines'], source)
     parse_tag(['herbs', 'mines'], source)
     parse_tag(['fishing'], source)
+    parse_tag(['all'], source)
 

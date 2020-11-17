@@ -15,12 +15,13 @@ nav_order: 1
 
 ## Quick Links
 **Images with clusters based on node type:** 
-*   [Herbs Clustered]({{ site.baseurl }}{% link docs/node-images/herbs.md %})
-*   [Mines Clustered]({{ site.baseurl }}{% link docs/node-images/mines.md %})
-*   [Fishing Clustered]({{ site.baseurl }}{% link docs/node-images/fishing.md %})
-*   [All Together]({{ site.baseurl }}{% link docs/node-images/herbs_mines.md %})
+*   [Herbs Clustered]({{ site.baseurl }}{% link docs/herbs.md %})
+*   [Mines Clustered]({{ site.baseurl }}{% link docs/mines.md %})
+*   [Fishing Clustered]({{ site.baseurl }}{% link docs/fishing.md %})
+*   [Herbs & Mines Clustered]({{ site.baseurl }}{% link docs/herbs_mines.md %})
+*   [All Together]({{ site.baseurl }}{% link docs/all.md %})
 
 
 ## Original Images
-The original images can be found here [here](https://github.com/Sillocan/wow-node-plotting/tree/main/outputs)
+The original images can be found here [here](https://github.com/Sillocan/wow-node-plotting/tree/main/assets)
 
