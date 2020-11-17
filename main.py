@@ -147,7 +147,7 @@ def parse_tag(tags: List[str], datasource: ZamimgDatasource):
         binsize = 15
         heatmap, xedges, yedges = np.histogram2d(x, y, bins=binsize)
         extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
-        square_plot = ax1.imshow(heatmap.T, extent=extent, origin='lower', cmap=mycmap, alpha=.8)
+        square_plot = ax1.imshow(heatmap.T, extent=extent, origin='lower', cmap=mycmap, alpha=1)
         ax1.set_title('Square histogram with %d bins' % binsize)
         fig.colorbar(square_plot, ax=ax1)
         # alternate way to perform heat map
@@ -164,9 +164,10 @@ def parse_tag(tags: List[str], datasource: ZamimgDatasource):
         fig.canvas.set_window_title(map_db[map_uid].name)
 
         plt.savefig(os.path.join(path, f"{map_db[map_uid].name}-{output_name}.png"), bbox_inches='tight', dpi=fig.dpi)
+        plt.show()
         fig.clf()
         plt.close(fig)
-    # plt.show()
+
 
     # Output stats to file
     counts = {}
