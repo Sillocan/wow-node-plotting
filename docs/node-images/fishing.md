@@ -42,5 +42,6 @@ The original images can be found here [here](https://github.com/Sillocan/wow-nod
 ![](/wow-node-plotting/outputs/fishing/The Maw-fishing.png)
 
 ## Queen's Conservatory
-![](/wow-node-plotting/outputs/fishing/Queen\'s\ Conservatory-fishing.png)
+
+![](/wow-node-plotting/outputs/fishing/Queen's Conservatory-fishing.png)
 
