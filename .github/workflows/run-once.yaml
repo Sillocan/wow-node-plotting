@@ -1,0 +1,39 @@
+name: Python package
+
+on: workflow_dispatch
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+    - name: checkout repo content
+      uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        # Semantic version range syntax or exact version of a Python version
+        python-version: '3.8' 
+        # Optional - x64 or x86 architecture, defaults to x64
+        architecture: 'x64' 
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Run script
+      run: |
+        python main.py
+    - name: Commit new images
+      run: |
+        git config --global user.name 'Sillocan'
+        git config --global user.email 'sillocan@gmail.com'
+        git add assets/*.png _includes/*.txt
+        git commit -m "Daily run - $DATE_TAG"
+        git push
+      env:
+        DATE_TAG: ${{ steps.date.outputs.date }} 
+
