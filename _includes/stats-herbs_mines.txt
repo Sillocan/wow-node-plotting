@@ -1,4 +1,4 @@
-2020-11-20 23:23:29.964253, 'herbs_mines' tag, 5 maps, 1199 nodes
+2020-11-21 00:44:49.172792, 'herbs_mines' tag, 5 maps, 1199 nodes
 {'Ardenweald': {336686: 69,
                 336688: 9,
                 336691: 16,
