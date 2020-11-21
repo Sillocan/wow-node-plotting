@@ -10,8 +10,15 @@ from enum import Enum, auto
 
 
 node_db = {}
-map_db = {}
 fish_db = {}
+map_db = {
+    11510:"Ardenweald",
+    10534:"Bastion",
+    11462:"Maldraxxus",
+    10413:"Revendreth",
+    11400:"The Maw",
+    13367:"Queen's Conservatory"
+}
 
 
 classs_to_find = 7
@@ -182,17 +189,17 @@ def scrape_map_nodes_from_item(item_id):
 
 def construct_node_lists_from_wowhead_data():
     for key, value in node_db.items():
-        print(f"Parsing node: ({key}: {value})")
+        #print(f"Parsing node: ({key}: {value})")
         parse_wowhead_data(key)
 
     for key in fish_db:
-        print(f"Parsing item: {key}")
+        #print(f"Parsing item: {key}")
         parse_wowhead_data(key, node_type="item")
 
     for map_uid in map_db:
         data = sorted(map_db[map_uid].node_set, key=attrgetter('name', 'x', 'y'))
         output = "\n\t".join(f"{k}: {list(g)}" for k, g in itertools.groupby(data, attrgetter('name')))
-        print(f"Map: {map_db[map_uid].name}\n\t{output}")
+        #print(f"Map: {map_db[map_uid].name}\n\t{output}")
 
 
 def parse_wowhead_data(node_id, node_type="object"):

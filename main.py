@@ -164,7 +164,7 @@ def parse_tag(tags: List[str], datasource: ZamimgDatasource):
         fig.canvas.set_window_title(map_db[map_uid].name)
 
         plt.savefig(os.path.join(path, f"{map_db[map_uid].name}-{output_name}.png"), bbox_inches='tight', dpi=fig.dpi)
-        plt.show()
+        #plt.show()
         fig.clf()
         plt.close(fig)
 
@@ -177,7 +177,7 @@ def parse_tag(tags: List[str], datasource: ZamimgDatasource):
     total = sum(count['Total'] for count in counts.values())
 
     with open(os.path.join(stats_path, f"stats-{output_name}.txt"), 'w') as stats_file:
-        header = f"{datetime.now()}, '{output_name}' tag, {len(map_db)} maps, {total} nodes\n"
+        header = f"'{output_name}' tag, {len(map_db)} maps, {total} nodes\n"
         # Write to file
         stats_file.write(header)
         pprint.pprint(counts, stream=stats_file)
