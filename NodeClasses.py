@@ -25,4 +25,7 @@ class Map(object):
         data['Total'] = sum(count for count in data.values())
         return data
 
+    def clear(self):
+        self.node_set.clear()
+
 

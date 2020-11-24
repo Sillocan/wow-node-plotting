@@ -9,15 +9,23 @@ from operator import attrgetter
 from enum import Enum, auto
 
 
+class WowheadDatasource(Enum):
+   LIVE = 'www'
+   PTR = 'ptr'
+   BETA = 'shadowlands'
+
+
+current_source = WowheadDatasource.LIVE
+
+
 node_db = {}
 fish_db = {}
 map_db = {
-    11510:"Ardenweald",
-    10534:"Bastion",
-    11462:"Maldraxxus",
-    10413:"Revendreth",
-    11400:"The Maw",
-    13367:"Queen's Conservatory"
+    11510:Map("Ardenweald"),
+    10534:Map("Bastion"),
+    11462:Map("Maldraxxus"),
+    10413:Map("Revendreth"),
+    11400:Map("The Maw")
 }
 
 
@@ -38,13 +46,15 @@ subclass_object_lookup = {
 
 def reset_nodes():
     global map_db, node_db, fish_db
-    map_db.clear()
+    for m in map_db.values():
+        m.clear()
+    #map_db.clear()
     node_db.clear()
     fish_db.clear()
 
 
 def make_soup_instance(type_name, obj_id) -> BeautifulSoup:
-    url = f"https://shadowlands.wowhead.com/{type_name}={obj_id}"
+    url = f"https://{current_source.value}.wowhead.com/{type_name}={obj_id}"
     hdr = {
         'User-Agent': 'Mozilla/5.0',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'}

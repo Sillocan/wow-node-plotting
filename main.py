@@ -187,7 +187,7 @@ def parse_tag(tags: List[str], datasource: ZamimgDatasource):
 
 
 if __name__ == "__main__":
-    source = ZamimgDatasource.BETA
+    source = ZamimgDatasource.RETAIL
     parse_tag(['herbs'], source)
     parse_tag(['mines'], source)
     parse_tag(['herbs', 'mines'], source)
