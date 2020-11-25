@@ -1,6 +1,10 @@
-'herbs' tag, 5 maps, 197 nodes
-{'Ardenweald': {336691: 8, 'Total': 8, 'UUID': 11510},
+'herbs' tag, 5 maps, 400 nodes
+{'Ardenweald': {336686: 123,
+                336688: 24,
+                336691: 8,
+                'Total': 155,
+                'UUID': 11510},
  'Bastion': {336690: 17, 336691: 77, 351469: 20, 'Total': 114, 'UUID': 10534},
  'Maldraxxus': {336689: 48, 336691: 25, 351470: 2, 'Total': 75, 'UUID': 11462},
- 'Revendreth': {'Total': 0, 'UUID': 10413},
+ 'Revendreth': {336433: 9, 351471: 47, 'Total': 56, 'UUID': 10413},
  'The Maw': {'Total': 0, 'UUID': 11400}}
