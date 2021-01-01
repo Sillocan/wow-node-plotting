@@ -1,4 +1,4 @@
-'herbs' tag, 5 maps, 5847 nodes
+'herbs' tag, 5 maps, 5854 nodes
 {'Ardenweald': {336686: 712,
                 336688: 834,
                 336691: 557,
@@ -19,4 +19,4 @@
                 351471: 327,
                 'Total': 898,
                 'UUID': 10413},
- 'The Maw': {356537: 160, 'Total': 160, 'UUID': 11400}}
+ 'The Maw': {356537: 167, 'Total': 167, 'UUID': 11400}}
