@@ -14,26 +14,30 @@ from enum import Enum
 
 
 class ZamimgDatasource(Enum):
-    RETAIL = 'enus'
-    BETA = 'beta'
+    RETAIL = "enus"
+    BETA = "beta"
 
 
 def convert_wowgathering_coord_to_xy(coord):
-    return math.floor(coord / 10000)/100, math.floor(coord % 10000)/100
+    return math.floor(coord / 10000) / 100, math.floor(coord % 10000) / 100
 
 
 def convert_gathermate_coord_to_xy(coord):
-    return math.floor(coord/1000000)/10000, math.floor(coord % 1000000 / 100)/10000
+    return (
+        math.floor(coord / 1000000) / 10000,
+        math.floor(coord % 1000000 / 100) / 10000,
+    )
 
 
 def convert_wowhead_coord_to_xy(x, y):
-    return x/100.000, y/100.000
+    return x / 100.000, y / 100.000
+
 
 def transparent_cmap(cmap, N=255):
     "Copy colormap and set alpha values"
     mycmap = cmap
     mycmap._init()
-    mycmap._lut[:,-1] = np.linspace(0, 0.5, N+4)
+    mycmap._lut[:, -1] = np.linspace(0, 0.5, N + 4)
     return mycmap
 
 
@@ -46,48 +50,84 @@ map_list = []
 356539: "Lush Widowbloom",
 """
 
-herbalism_item_lookup = {
-    169701: "Death Blossom",
-    170554: "Vigil's Torch",
-    168583: "Widowbloom",
-    171315: "Nightshade",
-    168586: "Rising Glory",
-    168589: "Marrowroot",
-}
+# Herbs
+herbs = [
+    "Hochenblume",
+    "Lush Hochenblume",
+    "Frigid Hochenblume",
+    "Decayed Hochenblume",
+    "Windswept Hochenblume",
+    "Infurious Hochenblume",
+    "Titan-Touched Hochenblume",
+    "Bubble Poppy",
+    "Lush Bubble Poppy",
+    "Frigid Bubble Poppy",
+    "Decayed Bubble Poppy",
+    "Windswept Bubble Poppy",
+    "Infurious Bubble Poppy",
+    "Titan-Touched Bubble Poppy",
+    "Saxifrage",
+    "Lush Saxifrage",
+    "Frigid Saxifrage",
+    "Decayed Saxifrage",
+    "Windswept Saxifrage",
+    "Infurious Saxifrage",
+    "Titan-Touched Saxifrage",
+    "Writhebark",
+    "Lush Writhebark",
+    "Frigid Writhebark",
+    "Decayed Writhebark",
+    "Windswept Writhebark",
+    "Infurious Writhebark",
+    "Titan-Touched Writhebark",
+]
 
-mining_item_lookup = {
-    171831: "Phaedrum Ore",
-    171833: "Elethium Ore",
-    171828: "Laestrite Ore",
-    171832: "Sinvyr Ore",
-    171829: "Solenium Ore",
-    171830: "Oxxein Ore"
-}
+herbalism_item_lookup = {k: v for k, v in scape_item_ids(herbs)}
+mines = [
+    "Serevite Seam",
+    "Serevite Deposit",
+    "Rich Serevite Deposit",
+    "Primal Serevite Deposit",
+    "Molten Serevite Deposit",
+    "Hardened Serevite Deposit",
+    "Infurious Serevite Deposit",
+    "Titan-Touched Serevite Deposit",
+    "Draconium Seam",
+    "Draconium Deposit",
+    "Rich Draconium Deposit",
+    "Primal Draconium Deposit",
+    "Molten Draconium Deposit",
+    "Hardened Draconium Deposit",
+    "Infurious Draconium Deposit",
+    "Titan-Touched Draconium Deposit",
+]
+mining_item_lookup = {k: v for k, v in scape_item_ids(mines)}
 
 fishing_item_lookup = {
-    173192: "shrouded cloth bandage",
-    180168: "oribobber",
-    171441: "laestrite skeleton key",
-    173032: "lost sole",
-    173037: "elysian thade",
-    173034: "silvergill pike",
-    173035: "pocked bonefish",
-    173033: "iridescent amberjack",
-    173036: "spinefin piranha",
-    173038: "lost sole bait",
-    173043: "elysian thade bait",
-    173040: "silvergill pike bait",
-    173041: "pocked bonefish bait",
-    173039: "iridescent amberjack bait",
-    173042: "spinefin piranha bait"
+    # 173192: "shrouded cloth bandage",
+    # 180168: "oribobber",
+    # 171441: "laestrite skeleton key",
+    # 173032: "lost sole",
+    # 173037: "elysian thade",
+    # 173034: "silvergill pike",
+    # 173035: "pocked bonefish",
+    # 173033: "iridescent amberjack",
+    # 173036: "spinefin piranha",
+    # 173038: "lost sole bait",
+    # 173043: "elysian thade bait",
+    # 173040: "silvergill pike bait",
+    # 173041: "pocked bonefish bait",
+    # 173039: "iridescent amberjack bait",
+    # 173042: "spinefin piranha bait"
 }
 
 tag_lookup = {
-    'mines': mining_item_lookup,
-    'herbs': herbalism_item_lookup,
-    'fishing': fishing_item_lookup,
-    'all': {**mining_item_lookup, **herbalism_item_lookup, **fishing_item_lookup}
+    "mines": mining_item_lookup,
+    "herbs": herbalism_item_lookup,
+    # "fishing": fishing_item_lookup,
+    "all": {**mining_item_lookup, **herbalism_item_lookup, **fishing_item_lookup},
 }
+
 
 def make_folder(path):
     path = os.path.join(path)
@@ -104,18 +144,25 @@ def parse_tag(tags: List[str], datasource: ZamimgDatasource):
         return
 
     # Parse all tags passed and scrape associated nodes
+    global node_db, map_db
     for tag in tags:
         if tag not in tag_lookup:
             print("ERROR: Invalid tag passed.")
             return
         for node_id, name in tag_lookup[tag].items():
-            print(f"Scraping data for {name} - {node_id}")
-            scrape_map_nodes_from_item(node_id)
+            # print(f"Scraping data for {name} - {node_id}")
+            # scrape_map_nodes_from_item(node_id)
+            if node_id not in node_db:
+                node_db[node_id] = {"name": name, "processed": False}
 
     # Make output folder
-    output_name = '_'.join(tags)
-    path = make_folder(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets'))
-    stats_path = make_folder(os.path.join(os.path.dirname(os.path.abspath(__file__)), '_includes'))
+    output_name = "_".join(tags)
+    path = make_folder(
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets")
+    )
+    stats_path = make_folder(
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "_includes")
+    )
 
     # Convert all scrapped nodes into map data
     construct_node_lists_from_wowhead_data()
@@ -136,9 +183,11 @@ def parse_tag(tags: List[str], datasource: ZamimgDatasource):
         mycmap = transparent_cmap(cm.gist_rainbow)
 
         # import the map image
-        img_request = requests.get(f"https://wow.zamimg.com/images/wow/maps/{datasource.value}/original/{map_uid}.jpg")
+        img_request = requests.get(
+            f"https://wow.zamimg.com/images/wow/maps/{datasource.value}/original/{map_uid}.jpg"
+        )
         img = np.flipud(Image.open(BytesIO(img_request.content)))
-        img_extent=[0, 100, 0, 100]
+        img_extent = [0, 100, 0, 100]
 
         (ax1, ax2) = fig.subplots(1, 2, sharex=True, sharey=True)
         ax1.imshow(img, extent=img_extent)
@@ -147,13 +196,17 @@ def parse_tag(tags: List[str], datasource: ZamimgDatasource):
         binsize = 15
         heatmap, xedges, yedges = np.histogram2d(x, y, bins=binsize)
         extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
-        square_plot = ax1.imshow(heatmap.T, extent=extent, origin='lower', cmap=mycmap, alpha=1)
-        ax1.set_title('Square histogram with %d bins' % binsize)
+        square_plot = ax1.imshow(
+            heatmap.T, extent=extent, origin="lower", cmap=mycmap, alpha=1
+        )
+        ax1.set_title("Square histogram with %d bins" % binsize)
         fig.colorbar(square_plot, ax=ax1)
         # alternate way to perform heat map
         gridsize = 15
-        ax2.set_title('Hex-Grid with %d gridsize' % gridsize)
-        hexbin_plot = ax2.hexbin(x, y, gridsize=gridsize, cmap=mycmap, bins=None, facecolor=None)
+        ax2.set_title("Hex-Grid with %d gridsize" % gridsize)
+        hexbin_plot = ax2.hexbin(
+            x, y, gridsize=gridsize, cmap=mycmap, bins=None, facecolor=None
+        )
         # end alternate way to perform heat map
         fig.colorbar(hexbin_plot, ax=ax2)
 
@@ -163,20 +216,23 @@ def parse_tag(tags: List[str], datasource: ZamimgDatasource):
         plt.xlim([0, 100])
         fig.canvas.set_window_title(map_db[map_uid].name)
 
-        plt.savefig(os.path.join(path, f"{map_db[map_uid].name}-{output_name}.png"), bbox_inches='tight', dpi=fig.dpi)
-        #plt.show()
+        plt.savefig(
+            os.path.join(path, f"{map_db[map_uid].name}-{output_name}.png"),
+            bbox_inches="tight",
+            dpi=fig.dpi,
+        )
+        # plt.show()
         fig.clf()
         plt.close(fig)
-
 
     # Output stats to file
     counts = {}
     for map_uid, map_obj in map_db.items():
         counts[map_obj.name] = map_obj.get_counts()
-        counts[map_obj.name]['UUID'] = map_uid
-    total = sum(count['Total'] for count in counts.values())
+        counts[map_obj.name]["UUID"] = map_uid
+    total = sum(count["Total"] for count in counts.values())
 
-    with open(os.path.join(stats_path, f"stats-{output_name}.txt"), 'w') as stats_file:
+    with open(os.path.join(stats_path, f"stats-{output_name}.txt"), "w") as stats_file:
         header = f"'{output_name}' tag, {len(map_db)} maps, {total} nodes\n"
         # Write to file
         stats_file.write(header)
@@ -188,9 +244,8 @@ def parse_tag(tags: List[str], datasource: ZamimgDatasource):
 
 if __name__ == "__main__":
     source = ZamimgDatasource.RETAIL
-    parse_tag(['herbs'], source)
-    parse_tag(['mines'], source)
-    parse_tag(['herbs', 'mines'], source)
-    parse_tag(['fishing'], source)
-    parse_tag(['all'], source)
-
+    parse_tag(["herbs"], source)
+    parse_tag(["mines"], source)
+    parse_tag(["herbs", "mines"], source)
+    parse_tag(["fishing"], source)
+    parse_tag(["all"], source)
