@@ -15,29 +15,21 @@ The original images can be found here [here](https://github.com/Sillocan/wow-nod
 
 ---
 
-## Ardenweald
+## The Waking Shores
 
-![]({{ site.baseurl }}/assets/Ardenweald-{{ include.tag }}.png)
+![]({{ site.baseurl }}/assets/The Waking Shores-{{ include.tag }}.png)
 
-## Bastion
+## The Azure Span
 
-![]({{ site.baseurl }}/assets/Bastion-{{ include.tag }}.png)
+![]({{ site.baseurl }}/assets/The Azure Span-{{ include.tag }}.png)
 
-## Maldraxxus
+## Ohn'ahran Plains
 
-![]({{ site.baseurl }}/assets/Maldraxxus-{{ include.tag }}.png)
+![]({{ site.baseurl }}/assets/Ohn'ahran Plains-{{ include.tag }}.png)
 
-## Revendreth
+## Thaldraszus
 
-![]({{ site.baseurl }}/assets/Revendreth-{{ include.tag }}.png)
-
-## The Maw
-
-![]({{ site.baseurl }}/assets/The Maw-{{ include.tag }}.png)
-
-## Queen's Conservatory
-
-![]({{ site.baseurl }}/assets/Queen's Conservatory-{{ include.tag }}.png)
+![]({{ site.baseurl }}/assets/Thaldraszus-{{ include.tag }}.png)
 
 ## Stats
 
