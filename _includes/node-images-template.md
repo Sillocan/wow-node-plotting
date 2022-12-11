@@ -1,5 +1,7 @@
+{% assign zones = "The Waking Shores, The Azure Span, Ohn'ahran Plains, Thaldraszus, Valdrakken" | split: ", " %}
+{% assign keywords = include.keywords | split: " " %}
 
-# Node Images
+# {{ include.tag }}
 {: .no_toc }
 
 ## Table of Contents
@@ -15,37 +17,23 @@ The original images can be found here [here](https://github.com/Sillocan/wow-nod
 
 ---
 
-## The Waking Shores
+## By Zone
+{% for zone in zones %}
 
-{% for key in include.keywords.split() %}
-### {{ keyword }}
+### {{ zone }}
 
-![]({{ site.baseurl }}/assets/The Waking Shores-{{ include.tag }}-{{ keyword }}.png)
-{%- endfor %}
+![]({{ site.baseurl }}/assets/{{ zone }}-{{ include.tag }}.png)
+{% endfor %}
 
-## The Azure Span
+## By Keyword
+{% for key in keywords %}
 
-{% for key in include.keywords.split() %}
-### {{ keyword }}
+### {{ key }}
 
-![]({{ site.baseurl }}/assets/The Azure Span-{{ include.tag }}-{{ keyword }}.png)
-{%- endfor %}
-
-## Ohn'ahran Plains
-
-{% for key in include.keywords.split() %}
-### {{ keyword }}
-
-![]({{ site.baseurl }}/assets/Ohn'ahran Plains-{{ include.tag }}-{{ keyword }}.png)
-{%- endfor %}
-
-## Thaldraszus
-
-{% for key in include.keywords.split() %}
-### {{ keyword }}
-
-![]({{ site.baseurl }}/assets/Thaldraszus-{{ include.tag }}-{{ keyword }}.png)
-{%- endfor %}
+{% for zone in zones %}
+![]({{ site.baseurl }}/assets/{{ zone }}-{{ include.tag }}-{{ key }}.png)
+{% endfor %}
+{% endfor %}
 
 ## Stats
 
