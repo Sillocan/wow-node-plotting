@@ -22,10 +22,14 @@ The original images can be found here [here](https://github.com/Sillocan/wow-nod
 
 ### {{ zone }}
 
-![]({{ site.baseurl }}/assets/{{ zone }}-{{ include.tag }}.png)
+![]({{ site.baseurl }}/assets/{{ zone }}-{{ include.tag }}-all.png)
 {% endfor %}
 
+---
+
 ## By Keyword
+
+Where `None` means there is no keyword -- just a basic node.
 {% for key in keywords %}
 
 ### {{ key }}
@@ -33,6 +37,7 @@ The original images can be found here [here](https://github.com/Sillocan/wow-nod
 {% for zone in zones %}
 ![]({{ site.baseurl }}/assets/{{ zone }}-{{ include.tag }}-{{ key }}.png)
 {% endfor %}
+---
 {% endfor %}
 
 ## Stats
