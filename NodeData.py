@@ -241,9 +241,9 @@ def construct_node_lists_from_wowhead_data():
 
     for map_uid in map_db:
         print(f"Parsing map: {map_uid}")
-        data = sorted(map_db[map_uid].node_set, key=attrgetter("name", "x", "y"))
+        data = sorted(map_db[map_uid].node_set, key=attrgetter("id", "x", "y"))
         output = "\n\t".join(
-            f"{k}: {list(g)}" for k, g in itertools.groupby(data, attrgetter("name"))
+            f"{k}: {list(g)}" for k, g in itertools.groupby(data, attrgetter("id"))
         )
         # print(f"Map: {map_db[map_uid].name}\n\t{output}")
 

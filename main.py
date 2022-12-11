@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 from matplotlib import cm as cm
 import math as math
 import numpy as np
-import urllib3
 from NodeClasses import *
 from NodeData import *
 from PIL import Image
@@ -49,6 +48,8 @@ map_list = []
 """
 356539: "Lush Widowbloom",
 """
+
+keywords = ["Lush", "Frigid", "Windswept", "Infurious", "Decayed", "Titan-Touched", "Rich", "Infurious", "Hardened", "Molten", "Primal"]
 
 # Herbs
 herbs = [
@@ -134,6 +135,54 @@ def make_folder(path):
     os.makedirs(path, exist_ok=True)
     return path
 
+def create_image(x, y, i, datasource, map_uid, path, output_name, key):
+    fig = plt.figure(i, figsize=(10, 4), dpi=200)
+    # setup transparent cmap
+    mycmap = transparent_cmap(cm.gist_rainbow)
+
+    # import the map image
+    img_request = requests.get(
+        f"https://wow.zamimg.com/images/wow/maps/{datasource.value}/original/{map_uid}.jpg"
+    )
+    img = np.flipud(Image.open(BytesIO(img_request.content)))
+    img_extent = [0, 100, 0, 100]
+
+    (ax1, ax2) = fig.subplots(1, 2, sharex=True, sharey=True)
+    ax1.imshow(img, extent=img_extent)
+    ax2.imshow(img, extent=img_extent)
+
+    binsize = 15
+    heatmap, xedges, yedges = np.histogram2d(x, y, bins=binsize)
+    extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
+    square_plot = ax1.imshow(
+        heatmap.T, extent=extent, origin="lower", cmap=mycmap, alpha=1
+    )
+    ax1.set_title("Square histogram with %d bins" % binsize)
+    fig.colorbar(square_plot, ax=ax1)
+    # alternate way to perform heat map
+    gridsize = 15
+    ax2.set_title("Hex-Grid with %d gridsize" % gridsize)
+    hexbin_plot = ax2.hexbin(
+        x, y, gridsize=gridsize, cmap=mycmap, bins=None, facecolor=None
+    )
+    # end alternate way to perform heat map
+    fig.colorbar(hexbin_plot, ax=ax2)
+
+    plt.gca().invert_yaxis()
+    # tmp = plt.scatter(x,y)
+    plt.ylim([100, 0])
+    plt.xlim([0, 100])
+    fig.canvas.set_window_title(map_db[map_uid].name)
+
+    plt.savefig(
+        os.path.join(path, f"{map_db[map_uid].name}-{output_name}-{key}.png"),
+        bbox_inches="tight",
+        dpi=fig.dpi,
+    )
+    # plt.show()
+    fig.clf()
+    plt.close(fig)
+
 
 def parse_tag(tags: List[str], datasource: ZamimgDatasource):
     # Reset parsed nodes in-case of previous run
@@ -145,6 +194,7 @@ def parse_tag(tags: List[str], datasource: ZamimgDatasource):
 
     # Parse all tags passed and scrape associated nodes
     global node_db, map_db
+    total_lookup = {}
     for tag in tags:
         if tag not in tag_lookup:
             print("ERROR: Invalid tag passed.")
@@ -152,6 +202,7 @@ def parse_tag(tags: List[str], datasource: ZamimgDatasource):
         for node_id, name in tag_lookup[tag].items():
             # print(f"Scraping data for {name} - {node_id}")
             # scrape_map_nodes_from_item(node_id)
+            total_lookup[node_id] = name
             if node_id not in node_db:
                 node_db[node_id] = {"name": name, "processed": False}
 
@@ -169,61 +220,46 @@ def parse_tag(tags: List[str], datasource: ZamimgDatasource):
 
     # Begin to plot the data
     i = 0
-    for map_uid in map_db:
-        i += 1
+    for map_uid, _ in map_db.items():
         # print("Parsing map:",map_uid)
         x = []
         y = []
+        datapoints_by_keyword = {}
         for node in map_db.get(map_uid).get_nodes():
+            matching_key = None
+            for key in keywords:
+                if total_lookup[node.id].startswith(key):
+                    matching_key = key
+            coords = datapoints_by_keyword.setdefault(matching_key, {"x": [], "y": []})
+            coords["x"].append(node.x)
+            coords["y"].append(node.y)
             x.append(node.x)
             y.append(node.y)
             # print(node)  # DEBUG PRINT
-        fig = plt.figure(i, figsize=(10, 4), dpi=200)
-        # setup transparent cmap
-        mycmap = transparent_cmap(cm.gist_rainbow)
 
-        # import the map image
-        img_request = requests.get(
-            f"https://wow.zamimg.com/images/wow/maps/{datasource.value}/original/{map_uid}.jpg"
+        for key, coords in datapoints_by_keyword.items():
+            i += 1
+            create_image(
+                x=coords["x"],
+                y=coords["y"],
+                i=i,
+                datasource=datasource,
+                map_uid=map_uid,
+                path=path,
+                output_name=output_name,
+                key=key,
+            )
+        i += 1
+        create_image(
+            x=x,
+            y=y,
+            i=i,
+            datasource=datasource,
+            map_uid=map_uid,
+            path=path,
+            output_name=output_name,
+            key="all",
         )
-        img = np.flipud(Image.open(BytesIO(img_request.content)))
-        img_extent = [0, 100, 0, 100]
-
-        (ax1, ax2) = fig.subplots(1, 2, sharex=True, sharey=True)
-        ax1.imshow(img, extent=img_extent)
-        ax2.imshow(img, extent=img_extent)
-
-        binsize = 15
-        heatmap, xedges, yedges = np.histogram2d(x, y, bins=binsize)
-        extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
-        square_plot = ax1.imshow(
-            heatmap.T, extent=extent, origin="lower", cmap=mycmap, alpha=1
-        )
-        ax1.set_title("Square histogram with %d bins" % binsize)
-        fig.colorbar(square_plot, ax=ax1)
-        # alternate way to perform heat map
-        gridsize = 15
-        ax2.set_title("Hex-Grid with %d gridsize" % gridsize)
-        hexbin_plot = ax2.hexbin(
-            x, y, gridsize=gridsize, cmap=mycmap, bins=None, facecolor=None
-        )
-        # end alternate way to perform heat map
-        fig.colorbar(hexbin_plot, ax=ax2)
-
-        plt.gca().invert_yaxis()
-        # tmp = plt.scatter(x,y)
-        plt.ylim([100, 0])
-        plt.xlim([0, 100])
-        fig.canvas.set_window_title(map_db[map_uid].name)
-
-        plt.savefig(
-            os.path.join(path, f"{map_db[map_uid].name}-{output_name}.png"),
-            bbox_inches="tight",
-            dpi=fig.dpi,
-        )
-        # plt.show()
-        fig.clf()
-        plt.close(fig)
 
     # Output stats to file
     counts = {}

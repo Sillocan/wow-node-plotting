@@ -17,19 +17,35 @@ The original images can be found here [here](https://github.com/Sillocan/wow-nod
 
 ## The Waking Shores
 
-![]({{ site.baseurl }}/assets/The Waking Shores-{{ include.tag }}.png)
+{% for key in keywords %}
+### {{ keyword }}
+
+![]({{ site.baseurl }}/assets/The Waking Shores-{{ include.tag }}-{{ keyword }}.png)
+{%- endfor %}
 
 ## The Azure Span
 
-![]({{ site.baseurl }}/assets/The Azure Span-{{ include.tag }}.png)
+{% for key in keywords %}
+### {{ keyword }}
+
+![]({{ site.baseurl }}/assets/The Azure Span-{{ include.tag }}-{{ keyword }}.png)
+{%- endfor %}
 
 ## Ohn'ahran Plains
 
-![]({{ site.baseurl }}/assets/Ohn'ahran Plains-{{ include.tag }}.png)
+{% for key in keywords %}
+### {{ keyword }}
+
+![]({{ site.baseurl }}/assets/Ohn'ahran Plains-{{ include.tag }}-{{ keyword }}.png)
+{%- endfor %}
 
 ## Thaldraszus
 
-![]({{ site.baseurl }}/assets/Thaldraszus-{{ include.tag }}.png)
+{% for key in keywords %}
+### {{ keyword }}
+
+![]({{ site.baseurl }}/assets/Thaldraszus-{{ include.tag }}-{{ keyword }}.png)
+{%- endfor %}
 
 ## Stats
 

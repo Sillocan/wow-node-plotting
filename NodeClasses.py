@@ -1,7 +1,7 @@
 from collections import namedtuple, defaultdict, Counter
 from typing import List
 
-MapNodeLocation = namedtuple('MapNodeLocation', ['name', 'x', 'y'])
+MapNodeLocation = namedtuple('MapNodeLocation', ['id', 'x', 'y'])
 Node = namedtuple('Node', ['name', 'id'])
 
 
@@ -21,7 +21,7 @@ class Map(object):
         self.node_set.add(node_loc)
 
     def get_counts(self):
-        data = dict(Counter(node.name for node in self.get_nodes()))
+        data = dict(Counter(node.id for node in self.get_nodes()))
         data['Total'] = sum(count for count in data.values())
         return data
 
