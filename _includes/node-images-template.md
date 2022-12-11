@@ -17,7 +17,7 @@ The original images can be found here [here](https://github.com/Sillocan/wow-nod
 
 ## The Waking Shores
 
-{% for key in keywords.split() %}
+{% for key in include.keywords.split() %}
 ### {{ keyword }}
 
 ![]({{ site.baseurl }}/assets/The Waking Shores-{{ include.tag }}-{{ keyword }}.png)
@@ -25,7 +25,7 @@ The original images can be found here [here](https://github.com/Sillocan/wow-nod
 
 ## The Azure Span
 
-{% for key in keywords.split() %}
+{% for key in include.keywords.split() %}
 ### {{ keyword }}
 
 ![]({{ site.baseurl }}/assets/The Azure Span-{{ include.tag }}-{{ keyword }}.png)
@@ -33,7 +33,7 @@ The original images can be found here [here](https://github.com/Sillocan/wow-nod
 
 ## Ohn'ahran Plains
 
-{% for key in keywords.split() %}
+{% for key in include.keywords.split() %}
 ### {{ keyword }}
 
 ![]({{ site.baseurl }}/assets/Ohn'ahran Plains-{{ include.tag }}-{{ keyword }}.png)
@@ -41,7 +41,7 @@ The original images can be found here [here](https://github.com/Sillocan/wow-nod
 
 ## Thaldraszus
 
-{% for key in keywords.split() %}
+{% for key in include.keywords.split() %}
 ### {{ keyword }}
 
 ![]({{ site.baseurl }}/assets/Thaldraszus-{{ include.tag }}-{{ keyword }}.png)
