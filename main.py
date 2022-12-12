@@ -44,66 +44,35 @@ def transparent_cmap(cmap, N=255):
 # my_db[map_name].append(MapNodeLocation(node, coord[0]/100.000, coord[1]/100.000))
 map_list = []
 
-# Random objects
-"""
-356539: "Lush Widowbloom",
-"""
-
-keywords = ["Lush", "Frigid", "Windswept", "Infurious", "Decayed", "Titan-Touched", "Rich", "Infurious", "Hardened", "Molten", "Primal"]
 
 # Herbs
-herbs = [
+herb_prefixes = ["Lush", "Frigid", "Windswept", "Infurious", "Decayed", "Titan-Touched", "Self-Grown"]
+herb_extra_prefixes = ["Self-Grown Decayed"]
+herb_bases = [
     "Hochenblume",
-    "Lush Hochenblume",
-    "Frigid Hochenblume",
-    "Decayed Hochenblume",
-    "Windswept Hochenblume",
-    "Infurious Hochenblume",
-    "Titan-Touched Hochenblume",
     "Bubble Poppy",
-    "Lush Bubble Poppy",
-    "Frigid Bubble Poppy",
-    "Decayed Bubble Poppy",
-    "Windswept Bubble Poppy",
-    "Infurious Bubble Poppy",
-    "Titan-Touched Bubble Poppy",
     "Saxifrage",
-    "Lush Saxifrage",
-    "Frigid Saxifrage",
-    "Decayed Saxifrage",
-    "Windswept Saxifrage",
-    "Infurious Saxifrage",
-    "Titan-Touched Saxifrage",
     "Writhebark",
-    "Lush Writhebark",
-    "Frigid Writhebark",
-    "Decayed Writhebark",
-    "Windswept Writhebark",
-    "Infurious Writhebark",
-    "Titan-Touched Writhebark",
 ]
-
+herbs = [
+    f"{prefix} {base}"
+    for base in herb_bases
+    for prefix in herb_prefixes + herb_extra_prefixes
+]
 herbalism_item_lookup = {k: v for k, v in scape_item_ids(herbs)}
-mines = [
+
+# Minerals
+mine_prefixes = ["Rich", "Hardened", "Molten", "Primal", "Infurious", "Titan-Touched"]
+mine_bases = [
     "Serevite Seam",
     "Serevite Deposit",
-    "Rich Serevite Deposit",
-    "Primal Serevite Deposit",
-    "Molten Serevite Deposit",
-    "Hardened Serevite Deposit",
-    "Infurious Serevite Deposit",
-    "Titan-Touched Serevite Deposit",
     "Draconium Seam",
     "Draconium Deposit",
-    "Rich Draconium Deposit",
-    "Primal Draconium Deposit",
-    "Molten Draconium Deposit",
-    "Hardened Draconium Deposit",
-    "Infurious Draconium Deposit",
-    "Titan-Touched Draconium Deposit",
 ]
+mines = [f"{prefix} {base}" for base in mine_bases for prefix in mine_prefixes]
 mining_item_lookup = {k: v for k, v in scape_item_ids(mines)}
 
+# Fishing
 fishing_item_lookup = {
     # 173192: "shrouded cloth bandage",
     # 180168: "oribobber",
@@ -122,6 +91,8 @@ fishing_item_lookup = {
     # 173042: "spinefin piranha bait"
 }
 
+# Lookup tables
+prefixes = set(herb_prefixes + mine_prefixes)
 tag_lookup = {
     "mines": mining_item_lookup,
     "herbs": herbalism_item_lookup,
@@ -226,13 +197,11 @@ def parse_tag(tags: List[str], datasource: ZamimgDatasource):
         y = []
         datapoints_by_keyword = {}
         for node in map_db.get(map_uid).get_nodes():
-            matching_key = None
-            for key in keywords:
-                if total_lookup[node.id].startswith(key):
-                    matching_key = key
-            coords = datapoints_by_keyword.setdefault(matching_key, {"x": [], "y": []})
-            coords["x"].append(node.x)
-            coords["y"].append(node.y)
+            matching_keys = [key for key in prefixes if key in total_lookup[node.id]] or [None]
+            for matching_key in matching_keys:
+                coords = datapoints_by_keyword.setdefault(matching_key, {"x": [], "y": []})
+                coords["x"].append(node.x)
+                coords["y"].append(node.y)
             x.append(node.x)
             y.append(node.y)
             # print(node)  # DEBUG PRINT

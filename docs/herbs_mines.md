@@ -5,4 +5,4 @@ parent: Node Images
 nav_order: 4
 ---
 
-{% include node-images-template.md tag="herbs_mines" keywords="Lush Frigid Windswept Infurious Decayed Titan-Touched Rich Infurious Hardened Molten Primal None" %}
+{% include node-images-template.md tag="herbs_mines" prefixes="Self-Grown Lush Frigid Windswept Decayed Titan-Touched Rich Hardened Molten Primal Infurious None" %}

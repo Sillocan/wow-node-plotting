@@ -1,5 +1,5 @@
-{% assign zones = "The Waking Shores, The Azure Span, Ohn'ahran Plains, Thaldraszus, Valdrakken" | split: ", " %}
-{% assign keywords = include.keywords | split: " " %}
+{% assign zones = "The Waking Shores, Ohn'ahran Plains, The Azure Span, Thaldraszus, Valdrakken" | split: ", " %}
+{% assign prefixes = include.prefixes | sort_natural | split: " " %}
 
 # {{ include.tag }}
 {: .no_toc }
@@ -27,10 +27,10 @@ The original images can be found here [here](https://github.com/Sillocan/wow-nod
 
 ---
 
-## By Keyword
+## By Prefix
 
-Where `None` means there is no keyword -- just a basic node.
-{% for key in keywords %}
+Where `None` means there is no prefix -- just a basic node.
+{% for key in prefixes %}
 
 ### {{ key }}
 
