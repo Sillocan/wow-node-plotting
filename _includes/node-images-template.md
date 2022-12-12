@@ -22,7 +22,7 @@ The original images can be found here [here](https://github.com/Sillocan/wow-nod
 
 ### {{ zone }}
 
-![]({{ site.baseurl }}/assets/{{ zone }}-{{ include.tag }}-all.png)
+[![{{ zone }} - {{include.tag}} - all]({{ site.baseurl }}/assets/{{ zone }}-{{ include.tag }}-all.png)]({{ site.baseurl }}/assets/{{ zone }}-{{ include.tag }}-all.png)
 {% endfor %}
 
 ---
@@ -35,7 +35,7 @@ Where `None` means there is no prefix -- just a basic node.
 ### {{ key }}
 
 {% for zone in zones %}
-![]({{ site.baseurl }}/assets/{{ zone }}-{{ include.tag }}-{{ key }}.png)
+[![{{ zone }} - {{ include.tag }} - {{ key }}]({{ site.baseurl }}/assets/{{ zone }}-{{ include.tag }}-{{ key }}.png)]({{ site.baseurl }}/assets/{{ zone }}-{{ include.tag }}-{{ key }}.png)
 {% endfor %}
 ---
 {% endfor %}
