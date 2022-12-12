@@ -1,5 +1,5 @@
 {% assign zones = "The Waking Shores, Ohn'ahran Plains, The Azure Span, Thaldraszus, Valdrakken" | split: ", " %}
-{% assign prefixes = include.prefixes | sort_natural | split: " " %}
+{% assign prefixes = include.prefixes | split: " " | sort_natural %}
 
 # {{ include.tag }}
 {: .no_toc }
