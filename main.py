@@ -36,14 +36,11 @@ def transparent_cmap(cmap, N=255):
     "Copy colormap and set alpha values"
     mycmap = cmap
     mycmap._init()
-    mycmap._lut[:, -1] = np.linspace(0, 0.5, N + 4)
+    mycmap._lut[:, -1] = np.linspace(0, 0.75, N + 4)
     return mycmap
 
 
-# my_db = defaultdict(list)
-# my_db[map_name].append(MapNodeLocation(node, coord[0]/100.000, coord[1]/100.000))
 map_list = []
-
 
 # Herbs
 herb_prefixes = ["Lush", "Frigid", "Windswept", "Infurious", "Decayed", "Titan-Touched", "Self-Grown"]
@@ -74,21 +71,7 @@ mining_item_lookup = {k: v for k, v in scape_item_ids(mines)}
 
 # Fishing
 fishing_item_lookup = {
-    # 173192: "shrouded cloth bandage",
-    # 180168: "oribobber",
-    # 171441: "laestrite skeleton key",
-    # 173032: "lost sole",
-    # 173037: "elysian thade",
-    # 173034: "silvergill pike",
-    # 173035: "pocked bonefish",
-    # 173033: "iridescent amberjack",
     # 173036: "spinefin piranha",
-    # 173038: "lost sole bait",
-    # 173043: "elysian thade bait",
-    # 173040: "silvergill pike bait",
-    # 173041: "pocked bonefish bait",
-    # 173039: "iridescent amberjack bait",
-    # 173042: "spinefin piranha bait"
 }
 
 # Lookup tables
@@ -106,7 +89,9 @@ def make_folder(path):
     os.makedirs(path, exist_ok=True)
     return path
 
+
 def create_image(x, y, i, datasource, map_uid, path, output_name, key):
+    # print(f"map_uuid = {map_uid}\nx = {x}\ny = {y}\n")
     fig = plt.figure(i, figsize=(10, 4), dpi=200)
     # setup transparent cmap
     mycmap = transparent_cmap(cm.gist_rainbow)
@@ -122,8 +107,8 @@ def create_image(x, y, i, datasource, map_uid, path, output_name, key):
     ax1.imshow(img, extent=img_extent)
     ax2.imshow(img, extent=img_extent)
 
-    binsize = 15
-    heatmap, xedges, yedges = np.histogram2d(x, y, bins=binsize)
+    binsize = 25
+    heatmap, xedges, yedges = np.histogram2d(x, y, bins=binsize, range=[[0, 100], [0, 100]])
     extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
     square_plot = ax1.imshow(
         heatmap.T, extent=extent, origin="lower", cmap=mycmap, alpha=1
@@ -131,10 +116,10 @@ def create_image(x, y, i, datasource, map_uid, path, output_name, key):
     ax1.set_title("Square histogram with %d bins" % binsize)
     fig.colorbar(square_plot, ax=ax1)
     # alternate way to perform heat map
-    gridsize = 15
+    gridsize = 25
     ax2.set_title("Hex-Grid with %d gridsize" % gridsize)
     hexbin_plot = ax2.hexbin(
-        x, y, gridsize=gridsize, cmap=mycmap, bins=None, facecolor=None
+        x, y, gridsize=gridsize, cmap=mycmap, bins=None, facecolor=None, extent=img_extent
     )
     # end alternate way to perform heat map
     fig.colorbar(hexbin_plot, ax=ax2)
@@ -197,7 +182,7 @@ def parse_tag(tags: List[str], datasource: ZamimgDatasource):
         y = []
         datapoints_by_keyword = {}
         for node in map_db.get(map_uid).get_nodes():
-            matching_keys = [key for key in prefixes if key in total_lookup[node.id]] or [None]
+            matching_keys = [key for key in prefixes if total_lookup[node.id].startswith(key)] or [None]
             for matching_key in matching_keys:
                 coords = datapoints_by_keyword.setdefault(matching_key, {"x": [], "y": []})
                 coords["x"].append(node.x)

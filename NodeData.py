@@ -185,6 +185,10 @@ def scape_item_ids(item_names):
     for map_id in map_db.keys():
         print(map_id)
         soup = make_soup_instance("zone", map_id)
+
+        # with open(f"{map_id}.html", "w") as f:
+        #     f.write(soup.prettify())
+
         term = "WH.TERMS.objects"
         content = soup.find(text=re.compile(term))
 
@@ -229,11 +233,11 @@ def scape_item_ids(item_names):
 
 def construct_node_lists_from_wowhead_data():
     for key, value in node_db.items():
+        print(f"Parsing node: ({key}: {value})")
         if value["processed"]:
             continue
-        print(f"Parsing node: ({key}: {value})")
         parse_wowhead_data(key)
-        value["processed"] = True
+        node_db[key]["processed"] = True
 
     for key in fish_db:
         # print(f"Parsing item: {key}")
