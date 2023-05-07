@@ -31,6 +31,7 @@ map_db = {
     13645: Map("Ohn'ahran Plains"),
     13647: Map("Thaldraszus"),
     13862: Map("Valdrakken"),
+    14022: Map("Zaralek Cavern"),
 }
 
 
