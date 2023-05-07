@@ -1,5 +1,5 @@
 import requests
-import demjson
+import demjson3 as demjson
 import re
 import ast
 from bs4 import BeautifulSoup
