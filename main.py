@@ -43,7 +43,7 @@ def transparent_cmap(cmap, N=255):
 map_list = []
 
 # Herbs
-herb_prefixes = ["Lush", "Frigid", "Windswept", "Infurious", "Decayed", "Titan-Touched", "Self-Grown"]
+herb_prefixes = ["Lush", "Frigid", "Windswept", "Infurious", "Decayed", "Titan-Touched", "Self-Grown", "Lambent"]
 herb_extra_prefixes = ["Self-Grown Decayed"]
 herb_bases = [
     "Hochenblume",
@@ -59,7 +59,7 @@ herbs = [
 herbalism_item_lookup = {k: v for k, v in scape_item_ids(herbs)}
 
 # Minerals
-mine_prefixes = ["Rich", "Hardened", "Molten", "Primal", "Infurious", "Titan-Touched"]
+mine_prefixes = ["Rich", "Hardened", "Molten", "Primal", "Infurious", "Titan-Touched", "Metamorphic"]
 mine_bases = [
     "Serevite Seam",
     "Serevite Deposit",
