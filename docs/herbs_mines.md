@@ -5,4 +5,4 @@ parent: Node Images
 nav_order: 4
 ---
 
-{% include node-images-template.md tag="herbs_mines" prefixes="Lambent Metamorphic Self-Grown Lush Frigid Windswept Decayed Titan-Touched Rich Hardened Molten Primal Infurious None" %}
+{% include node-images-template.md tag="herbs_mines" prefixes="Lush Altered Crystallized Irradiated Sporefused Rich Crystallized Webbed Weeping EZ-Mine None" %}
