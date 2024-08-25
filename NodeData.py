@@ -26,13 +26,18 @@ map_db = {
     # 11462:Map("Maldraxxus"),
     # 10413:Map("Revendreth"),
     # 11400:Map("The Maw"),
-    13644: Map("The Waking Shores"),
-    13646: Map("The Azure Span"),
-    13645: Map("Ohn'ahran Plains"),
-    13647: Map("Thaldraszus"),
-    13862: Map("Valdrakken"),
-    14022: Map("Zaralek Cavern"),
+    # 13644: Map("The Waking Shores"),
+    # 13646: Map("The Azure Span"),
+    # 13645: Map("Ohn'ahran Plains"),
+    # 13647: Map("Thaldraszus"),
+    # 13862: Map("Valdrakken"),
+    # 14022: Map("Zaralek Cavern"),
+    14717: Map("Isle of Dorn"),
+    14795: Map("The Ringing Deeps"),
+    14838: Map("Hallowfall"),
+    14752: Map("Azj-Kahet"),
 }
+
 
 
 classs_to_find = 7

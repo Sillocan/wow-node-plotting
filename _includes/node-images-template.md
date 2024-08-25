@@ -1,4 +1,4 @@
-{% assign zones = "The Waking Shores, Ohn'ahran Plains, The Azure Span, Thaldraszus, Valdrakken, Zaralek Cavern" | split: ", " %}
+{% assign zones = "Isle of Dorn, The Ringing Deeps, Hallowfall, Azj-Kahet" | split: ", " %}
 {% assign prefixes = include.prefixes | split: " " | sort_natural %}
 
 # {{ include.tag }}

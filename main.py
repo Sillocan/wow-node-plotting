@@ -43,13 +43,14 @@ def transparent_cmap(cmap, N=255):
 map_list = []
 
 # Herbs
-herb_prefixes = ["Lush", "Frigid", "Windswept", "Infurious", "Decayed", "Titan-Touched", "Self-Grown", "Lambent"]
-herb_extra_prefixes = ["Self-Grown Decayed"]
+herb_prefixes = ["Lush", "Altered", "Crystallized", "Irradiated", "Sporefused", ]
+herb_extra_prefixes = []
 herb_bases = [
-    "Hochenblume",
-    "Bubble Poppy",
-    "Saxifrage",
-    "Writhebark",
+    "Mycobloom",
+    "Blessing Blossom",
+    "Arathor's Spear",
+    "Orbinid",
+    "Luredrop",
 ]
 herbs = [
     f"{prefix} {base}"
@@ -59,14 +60,14 @@ herbs = [
 herbalism_item_lookup = {k: v for k, v in scape_item_ids(herbs)}
 
 # Minerals
-mine_prefixes = ["Rich", "Hardened", "Molten", "Primal", "Infurious", "Titan-Touched", "Metamorphic"]
+mine_prefixes = ["Rich", "Crystallized", "Webbed", "Weeping", "EZ-Mine"]
+mine_extras = ["Webbed Ore Deposit", "Ironclaw Seam", "Bismuth Seam"]
 mine_bases = [
-    "Serevite Seam",
-    "Serevite Deposit",
-    "Draconium Seam",
-    "Draconium Deposit",
+    "Bismuth",
+    "Ironclaw",
+    "Aqirite",
 ]
-mines = [f"{prefix} {base}" for base in mine_bases for prefix in mine_prefixes]
+mines = [f"{prefix} {base}" for base in mine_bases for prefix in mine_prefixes] + mine_extras
 mining_item_lookup = {k: v for k, v in scape_item_ids(mines)}
 
 # Fishing
